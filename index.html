@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mbrain — Mugdha's agent fleet, live</title>
+<meta name="description" content="Mbrain — the command centre over Mugdha Tasgaonkar's AI agent fleet: portfolio, agents, apps, and marketing automation, tracked in one place.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+<style>
+  :root { color-scheme: dark; --bg:#060609; --bg2:#0B0B12; --surface:#101019; --text:#F4F4F6;
+    --muted:#A6A6B3; --faint:#74747F; --line:#23232E; --accent:#60A5FA; --accent2:#A78BFA;
+    --green:#34D399; --red:#F87171; --amber:#FBBF24;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  .wrap { max-width:64rem; margin:0 auto; padding:0 1.4rem; }
+  header { position:relative; overflow:hidden; border-bottom:1px solid var(--line);
+    padding:4.5rem 0 3.5rem; }
+  #net { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  header .wrap { position:relative; display:flex; flex-wrap:wrap; gap:2rem; align-items:center; }
+  h1 { margin:0 0 0.5rem; font-size:clamp(2.6rem,7vw,4rem); letter-spacing:-0.03em; }
+  h1 span { background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .lede { color:var(--muted); max-width:32rem; margin:0; }
+  .portrait { width:130px; height:130px; border-radius:50%; object-fit:cover;
+    border:3px solid var(--line); box-shadow:0 0 40px rgba(96,165,250,0.35); flex:none; }
+  .sys { font-family:var(--mono); font-size:0.7rem; letter-spacing:0.14em; color:var(--accent);
+    text-transform:uppercase; margin-bottom:0.9rem; }
+  section { padding:2.8rem 0 0; }
+  h2 { font-size:1.5rem; letter-spacing:-0.02em; margin:0 0 1rem; }
+  .muted { color:var(--muted); max-width:44rem; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr)); gap:0.9rem; }
+  .stat { border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem;
+    background:linear-gradient(180deg,var(--surface),var(--bg2)); }
+  .stat b { display:block; font-size:1.9rem; letter-spacing:-0.02em;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .stat span { color:var(--faint); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em; }
+  .grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(19rem,1fr)); }
+  .card { border:1px solid var(--line); border-radius:12px; background:var(--bg2);
+    padding:1.1rem 1.2rem; }
+  .card-top { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; }
+  .cat { margin-left:auto; color:var(--faint); font-size:0.68rem; text-transform:uppercase;
+    letter-spacing:0.08em; }
+  .dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .dot.ok { background:var(--green); box-shadow:0 0 8px var(--green); }
+  .dot.down { background:var(--red); }
+  .dot.unk { background:var(--faint); }
+  .st { font-family:var(--mono); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; }
+  .st.ok { color:var(--green); } .st.down { color:var(--red); } .st.unk { color:var(--faint); }
+  .card h3 { margin:0 0 0.35rem; font-size:1.05rem; }
+  .card p { margin:0; color:var(--muted); font-size:0.875rem; }
+  .subs { color:var(--faint); font-size:0.78rem; margin-top:0.5rem; }
+  .tags { display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.7rem; }
+  .tag { border:1px solid var(--line); border-radius:7px; padding:0.12rem 0.5rem;
+    color:var(--faint); font-size:0.72rem; }
+  .tag.local { color:var(--accent); border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); }
+  .evidence { font-family:var(--mono); font-size:0.68rem; color:var(--faint); margin-top:0.6rem; }
+  .links { display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); }
+  a.big { display:block; border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.3rem;
+    background:var(--bg2); color:inherit; text-decoration:none; transition:border-color 200ms; }
+  a.big:hover { border-color:var(--accent); }
+  a.big b { display:block; color:var(--accent); margin-bottom:0.25rem; }
+  a.big span { color:var(--muted); font-size:0.875rem; }
+  footer { margin-top:3.5rem; border-top:1px solid var(--line); padding:1.6rem 0 2.5rem;
+    color:var(--faint); font-size:0.82rem; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:0.5rem 2rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div style="flex:1 1 24rem">
+      <div class="sys">SYS://MBRAIN · ALWAYS ON</div>
+      <h1><span>Mbrain</span></h1>
+      <p class="lede">The brain over the fleet. Every agent, app, and automation
+      Mugdha Tasgaonkar runs — registered, probed, and tracked in one place.
+      The site never sleeps; the fleet reports in.</p>
+    </div>
+    <img class="portrait" src="mugdha-portrait.jpg" alt="Mugdha Tasgaonkar">
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="stats">
+      <div class="stat"><b>9</b><span>agents registered</span></div>
+      <div class="stat"><b>3</b><span>running at last probe</span></div>
+      <div class="stat"><b>3</b><span>connectors: Gmail · LinkedIn · Instagram</span></div>
+      <div class="stat"><b>0</b><span>posts published by the pipeline</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The fleet</h2>
+    <p class="muted">Live status comes from Mbrain's probe — ports and processes, not
+    config files. Dashboards marked <em>local</em> run on the home machine; this page is
+    their public shadow.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="card-top"><span class="dot ok"></span><span class="st ok">running</span><span class="cat">Multi-Agent System</span></div>
+        <h3>AI For Her ATX</h3>
+        <p>5-agent AI framework automating LinkedIn content creation, research, training curation, and organizational operations for a nonprofit empowering women in AI.</p>
+        <div class="subs">5 sub-agents: NOVA · SAGE · IRIS · ARIA · ATHENA</div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">HTML/CSS</span><span class="tag">Claude CLI</span><span class="tag local">local dashboard 5050</span></div>
+        <div class="evidence">probe: port 5050 listening</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot unk"></span><span class="st unk">standby</span><span class="cat">AI Coach</span></div>
+        <h3>Comms Agent</h3>
+        <p>AI-powered personalized 10-day executive communication coaching program with audio recording, transcription, and progress tracking.</p>
+        
+        <div class="tags"><span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">Flask</span><span class="tag">Claude API</span></div>
+        <div class="evidence">probe: no dashboard port to probe</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot down"></span><span class="st down">stopped</span><span class="cat">Case Management Agent</span></div>
+        <h3>Immigration Agent</h3>
+        <p>EB-1A Extraordinary Ability immigration case builder with evidence tracking, document management, Gmail integration, and lawyer research dashboard.</p>
+        
+        <div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">Electron</span><span class="tag">JavaScript</span><span class="tag local">local dashboard 3847</span></div>
+        <div class="evidence">probe: port 3847 closed</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot unk"></span><span class="st unk">standby</span><span class="cat">Job Search Automation</span></div>
+        <h3>Career Agent</h3>
+        <p>AI-powered job application agent that searches the internet, tailors CVs, writes cover letters, and tracks applications with a full Electron dashboard.</p>
+        
+        <div class="tags"><span class="tag">Node.js</span><span class="tag">Electron</span><span class="tag">SQLite</span><span class="tag">Claude API</span></div>
+        <div class="evidence">probe: no dashboard port to probe</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot ok"></span><span class="st ok">running</span><span class="cat">Personal Finance Agent</span></div>
+        <h3>Portfolio Advisor</h3>
+        <p>Local, private financial dashboard for investments, accounts, plans, and news with a Claude-CLI advisor chatbot. No API key, data never leaves the Mac.</p>
+        
+        <div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">JavaScript</span><span class="tag">HTML/CSS</span><span class="tag local">local dashboard 4317</span></div>
+        <div class="evidence">probe: port 4317 listening</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot unk"></span><span class="st unk">standby</span><span class="cat">Research Agent</span></div>
+        <h3>WAI Research</h3>
+        <p>Scheduled weekly deep-research agent producing one citation-backed report every Monday on women in AI, with a featured track on women &amp; AI in healthcare R&amp;D.</p>
+        
+        <div class="tags"><span class="tag">Python</span><span class="tag">Claude CLI</span><span class="tag">HTML/CSS</span><span class="tag">Cron</span></div>
+        <div class="evidence">probe: no dashboard port to probe</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot unk"></span><span class="st unk">standby</span><span class="cat">iOS Health App (On-Device AI)</span></div>
+        <h3>Atara: Mind &amp; Cycle (MoodBalance)</h3>
+        <p>SwiftUI iOS mental-health &amp; medication companion for women — on-device AI (Apple FoundationModels), HealthKit + cycle prediction, wearable/ring integration, clinician PDF export. No API keys, no network.</p>
+        
+        <div class="tags"><span class="tag">Swift</span><span class="tag">SwiftUI</span><span class="tag">SwiftData</span><span class="tag">Apple FoundationModels</span></div>
+        <div class="evidence">probe: no dashboard port to probe</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot down"></span><span class="st down">stopped</span><span class="cat">Planning &amp; Execution Dashboard</span></div>
+        <h3>TechEvent</h3>
+        <p>Local web app to plan the &#x27;Tech Social Collective&#x27; vision across Vision → Phases → Milestones → Goals → Tasks, with a progress dashboard and a planning chatbot.</p>
+        
+        <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">Claude CLI</span><span class="tag">HTML/CSS</span><span class="tag local">local dashboard 8500</span></div>
+        <div class="evidence">probe: port 8500 closed</div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot ok"></span><span class="st ok">running</span><span class="cat">Multi-Agent System</span></div>
+        <h3>MAVEN Marketing Team</h3>
+        <p>5-agent marketing team for Atara: Mind &amp; Cycle + AI for Her ATX: LUNA (content), VERA (fact-check), POSTA (publishing), ECHO (comment analysis), ATLAS (analytics + daily email report). Women&#x27;s health, neurodivergence, menopause culture.</p>
+        <div class="subs">5 sub-agents: LUNA · VERA · POSTA · ECHO · ATLAS</div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Claude CLI (Opus)</span><span class="tag">launchd</span><span class="tag">Instagram Graph API</span><span class="tag local">local dashboard 4600</span></div>
+        <div class="evidence">probe: port 4600 listening</div>
+      </div>
+    </div>
+  </section>
+  
+    <section>
+      <h2>The marketing brain</h2>
+      <p class="muted">MAVEN — LUNA · VERA · POSTA · ECHO · ATLAS — runs content for Atara: Mind &amp; Cycle and
+      AI for Her ATX autonomously: creates, fact-checks, publishes at 9:00 and 17:00 CST,
+      listens to comments, and reports nightly. 0 posts published through the pipeline
+      · last report 2026-07-24.</p>
+    </section>
+
+  <section>
+    <h2>The human behind the brain</h2>
+    <div class="links">
+      <a class="big" href="https://aiforheratx.github.io/mugdhatasgaonkar.com/" rel="noopener"><b>Portfolio →</b>
+        <span>Who I am, the 3D showcase, and the story behind the fleet</span></a>
+      <a class="big" href="https://aiforheratx.github.io/mugdhatasgaonkar.com/work/" rel="noopener"><b>Work — mission briefs →</b>
+        <span>Architecture, workflows, and how Claude is used in every project</span></a>
+      <a class="big" href="https://aiforheratx.github.io/mugdhatasgaonkar.com/speaking/" rel="noopener"><b>Speaking →</b>
+        <span>Talks and the professional track record</span></a>
+      <a class="big" href="https://www.aiforheratx.org" rel="noopener"><b>AI for Her ATX →</b>
+        <span>The 501(c)(3) — sponsorship parity for women in AI</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Mugdha Tasgaonkar · Austin, Texas</span>
+    <span>synced 2026-07-25 00:20 UTC · auto-updates nightly</span>
+    <span><a href="https://www.linkedin.com/in/mugdhatasgaonkar" rel="me noopener" style="color:var(--muted)">LinkedIn</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var c = document.getElementById('net'), x = c.getContext('2d');
+  if (!x || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var w, h, N = [], raf;
+  function size() {
+    var r = c.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    w = r.width; h = r.height; c.width = w * d; c.height = h * d; x.setTransform(d, 0, 0, d, 0, 0);
+  }
+  size(); addEventListener('resize', size, {passive: true});
+  for (var i = 0; i < 42; i++) N.push({ x: Math.random(), y: Math.random(),
+    vx: (Math.random() - 0.5) * 0.0006, vy: (Math.random() - 0.5) * 0.0006 });
+  (function frame(t) {
+    x.clearRect(0, 0, w, h);
+    for (var i = 0; i < N.length; i++) {
+      var n = N[i];
+      n.x = (n.x + n.vx + 1) % 1; n.y = (n.y + n.vy + 1) % 1;
+      for (var j = i + 1; j < N.length; j++) {
+        var m = N[j], dx = (n.x - m.x) * w, dy = (n.y - m.y) * h, d2 = dx * dx + dy * dy;
+        if (d2 < 16900) {
+          x.strokeStyle = 'rgba(120,150,220,' + (0.25 * (1 - d2 / 16900)).toFixed(3) + ')';
+          x.beginPath(); x.moveTo(n.x * w, n.y * h); x.lineTo(m.x * w, m.y * h); x.stroke();
+        }
+      }
+      x.fillStyle = 'rgba(120,175,255,0.8)';
+      x.beginPath(); x.arc(n.x * w, n.y * h, 1.6 + Math.sin(t / 700 + i) * 0.6, 0, 7); x.fill();
+    }
+    raf = requestAnimationFrame(frame);
+  })(0);
+  document.addEventListener('visibilitychange', function () {
+    document.hidden ? cancelAnimationFrame(raf) : requestAnimationFrame(function f(t) { raf = requestAnimationFrame(f); });
+  });
+})();
+</script>
+</body>
+</html>
